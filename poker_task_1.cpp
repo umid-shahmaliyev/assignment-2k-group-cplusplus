@@ -226,7 +226,7 @@ bool operator != (const Card& lhs, const Card& rhs)
 
 std::ostream& operator << (std::ostream& os, const Card& card)
 {
-    return os << "suite: " << unsigned(card.suit()) << ", rank: " << unsigned(card.rank());
+    return os << "suit: " << unsigned(card.m_suit) << ", rank: " << unsigned(card.m_rank);
 }
 
 
@@ -241,9 +241,9 @@ bool Deck::isStraight(const std::array<Card, 5> &cards)
 {                                                               // FYI - cards = [10, K, A, J, Q]
     auto maxRank = unsigned(Card::RANK::K);                     // FYI - maxRank = 13
     auto strbits = std::string(maxRank, '0');                   // FYI - strbits = "0000000000000"
-    std::for_each(cards.begin(), cards.end(), [&](Card card){
-       strbits[unsigned(card.rank()) - 1] = '1';                // FYI - strbits = "1000000001111"
-    });
+    for(auto card: cards) {
+        strbits[unsigned(card.rank()) - 1] = '1';               // FYI - strbits = "1000000001111"
+    }
     strbits += strbits.substr(0, 5);                            // FYI - strbits = "100000000111110000"
     auto found = strbits.find("11111");                         // FYI - search for "11111"
 
